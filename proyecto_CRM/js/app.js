@@ -41,7 +41,7 @@
             objectStore.createIndex("empresa","empresa",{unique: false});
             objectStore.createIndex("id","id",{unique: true});
             
-            console.info("Base de datos lista");
+            console.log("Base de datos lista");
         }
     }
 })();
