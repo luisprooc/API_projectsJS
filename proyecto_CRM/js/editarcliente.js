@@ -1,24 +1,32 @@
-(()=>{
-    let DB;
 
+(()=>{
+    let idCliente;
     const nombreInput = document.querySelector("#nombre");
+    const emailInput = document.querySelector("#email");
+    const telefonoInput = document.querySelector("#telefono");
+    const empresaInput = document.querySelector("#empresa");
+
+    const formulario = document.querySelector("#formulario");
+
     document.addEventListener("DOMContentLoaded",()=>{
         conectarDB();
+
+        formulario.addEventListener("submit",actualizarCliente);
         // Obtener los valores pasados por la URL
         const parametrosURL = new URLSearchParams(window.location.search);
 
         // Mediante elmetodoget obtenemos el id
-        const idCliente = parametrosURL.get("id");
+        idCliente = parametrosURL.get("id");
         
         if(idCliente){
             setTimeout(() =>{
                 obtenerCliente(idCliente);
-            },1000);
+            },300);
         }
     });
 
     function obtenerCliente(id){
-        const transaction = DB.transaction(["crm"],"readwrite");
+        const transaction = DB.transaction(["crm"],"readonly");
 
         const objectStore = transaction.objectStore("crm");
 
@@ -30,7 +38,6 @@
             if(cursor){
                 // Encontrar el id a editar
                 if(cursor.value.id === Number(id)){
-                    console.log(cursor.value);
                     llenarFormulario(cursor.value);
                 }
 
@@ -40,26 +47,51 @@
 
     }
 
-    function conectarDB(){
-        const abrirDB = window.indexedDB.open("crm",1);
-        
-        // Si ocurre un error
-        abrirDB.onerror = () =>{
-            console.error("Hubo un  error al conectar la DB");
-        }
-
-        abrirDB.onsuccess = () =>{
-            // Asignar el resultado de la DB
-            DB = abrirDB.result;
-            console.log("Conexion establecida");
-        }
-    }
 
     function llenarFormulario(datosCliente){
         // Destructuring
-        const {nombre} = datosCliente;
+        const {nombre,email,telefono,empresa} = datosCliente;
 
         // LLenar los campos con el valor
         nombreInput.value = nombre;
+        emailInput.value = email;
+        telefonoInput.value = telefono;
+        empresaInput.value = empresa;
+    }
+
+    function actualizarCliente(e){
+        e.preventDefault();
+
+        if(nombreInput.value === "" || emailInput.value === "" || telefonoInput === "" || empresaInput === ""){
+            imprimirAlerta("Todos los campos son obligatorios","error");
+
+            return;
+        }
+
+        const clienteActualizado = {
+            nombre: nombreInput.value,
+            email: emailInput.value,
+            telefono: telefonoInput.value,
+            empresa : empresaInput.value,
+            id: Number(idCliente)
+        }
+
+        const transaction = DB.transaction(["crm"],"readwrite")
+        const objectStore = transaction.objectStore("crm");
+
+        objectStore.put(clienteActualizado);
+
+        transaction.oncomplete = () =>{
+            imprimirAlerta("Cliente editado correctamente","success");
+
+            setTimeout(()=>{
+                window.location.href = "index.html";
+            },3000);
+        }
+
+        transaction.onerror = () =>{
+            console.info(transaction);
+            imprimirAlerta("Hubo un error al editar el cliente","error");
+        }
     }
 })();
