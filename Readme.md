@@ -11,3 +11,13 @@ _The HTML and CSS will be predefined_
 * You can get and read clients to the CRM.
 
 * You can delete clients to the CRM.
+
+
+
+## Seeker weather
+
+* This project will be use open weather API.
+
+* I will put into practice that I learned with fetch API.
+
+* You must add the country to the you want to know the weather.
