@@ -1,4 +1,4 @@
-import {formulario,ciudad, pais, container} from "./variables.js";
+import {formulario,ciudad, pais, container, resultado} from "./variables.js";
 
 // Eventos
 window.addEventListener("load", () =>{
@@ -16,9 +16,7 @@ function buscarClima(e){
         return;
     }
 
-    else{
-        console.log(pais,ciudad)
-    }
+    consultarAPI(ciudad.value,pais.value);
 }
 
 function mostrarError(mensaje){
@@ -43,4 +41,20 @@ function mostrarError(mensaje){
             alerta.remove()
         },3000);
     }
+}
+
+function consultarAPI(ciudad,pais){
+    const appId = "3d9f03203b4666cd8b2452c01b98cd92";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`;
+    fetch(url)
+        .then(respuesta => respuesta.json())
+        .then(resultado => {
+            if(resultado.cod === "404"){
+                console.log("Ciudad no encontrada");
+            }
+
+            else{
+                console.log(resultado);
+            }
+        })
 }
