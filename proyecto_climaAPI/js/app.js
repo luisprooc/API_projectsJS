@@ -46,6 +46,7 @@ function mostrarError(mensaje){
 function consultarAPI(ciudad,pais){
     const appId = "3d9f03203b4666cd8b2452c01b98cd92";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`;
+    cargarSpinner();
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(resultado => {
@@ -113,3 +114,16 @@ function limpiarHtml(){
 }
 
 const kelvinCentigrados = grados => parseInt(grados- 273.15);
+
+function cargarSpinner(){
+    limpiarHtml();
+    const spinner = document.createElement("div");
+    spinner.classList.add("sk-folding-cube");
+    spinner.innerHTML = `
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+    `;
+    resultado.appendChild(spinner);
+}
