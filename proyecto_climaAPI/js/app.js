@@ -49,12 +49,44 @@ function consultarAPI(ciudad,pais){
     fetch(url)
         .then(respuesta => respuesta.json())
         .then(resultado => {
+            // Limpiamos el html y reseteamos el formulario
+            limpiarHtml();
+            formulario.reset();
+
             if(resultado.cod === "404"){
-                console.log("Ciudad no encontrada");
+                mostrarError("Los datos que introduciste no son validos");
             }
 
             else{
-                console.log(resultado);
+                // Mostras datos de la respuesta
+                mostrarClima(resultado);
             }
         })
+}
+
+function mostrarClima(datos){
+    const {main: {temp,temp_max,temp_min}} = datos;
+
+    // Convertir de kelvin a centigrados
+    const centigrados = temp - 273.15;
+    const actual = document.createElement("p");
+
+    // Agregar la temperatura al elemento
+    actual.innerHTML = `${parseInt(centigrados)}&#8451;`;
+    actual.classList.add("font-bold","text-6xl");
+
+    const resultadoDiv = document.createElement("div");
+    resultadoDiv.classList.add("text-center","text-white");
+    resultadoDiv.appendChild(actual);
+
+    // Agregarle el div con la informacion al elemento
+    resultado.appendChild(resultadoDiv);
+
+
+}
+
+function limpiarHtml(){
+    while(resultado.firstChild){
+        resultado.removeChild(resultado.firstChild);
+    }
 }
