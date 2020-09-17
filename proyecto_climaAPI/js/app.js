@@ -65,19 +65,40 @@ function consultarAPI(ciudad,pais){
 }
 
 function mostrarClima(datos){
-    const {main: {temp,temp_max,temp_min}} = datos;
+    const {name,main: {temp,temp_max,temp_min}} = datos;
 
     // Convertir de kelvin a centigrados
-    const centigrados = temp - 273.15;
-    const actual = document.createElement("p");
+    const centigrados = kelvinCentigrados(temp);
+    const max = kelvinCentigrados(temp_max);
+    const min = kelvinCentigrados(temp_min);
+
+    // Agregar la ciudad
+    const ciudad = document.createElement("p");
+    ciudad.innerText = `Ciudad: ${name}`;
+    ciudad.classList.add("font-bold","text-2xl");
 
     // Agregar la temperatura al elemento
-    actual.innerHTML = `${parseInt(centigrados)}&#8451;`;
+    const actual = document.createElement("p");
+    actual.innerHTML = `${centigrados}&#8451;`;
     actual.classList.add("font-bold","text-6xl");
 
+    // Agregar la temperatura maxima
+    const tempMax = document.createElement("p");
+    tempMax.innerHTML = `Max: ${max}&#8451;`;
+    tempMax.classList.add("text-xl");
+
+    // Agregar la temperatura minima
+    const tempMin = document.createElement("p");
+    tempMin.innerHTML = `Min: ${min}&#8451;`;
+    tempMin.classList.add("text-xl");
+
+    // Div que contendra esos elementos
     const resultadoDiv = document.createElement("div");
     resultadoDiv.classList.add("text-center","text-white");
+    resultadoDiv.appendChild(ciudad);
     resultadoDiv.appendChild(actual);
+    resultadoDiv.appendChild(tempMax);
+    resultadoDiv.appendChild(tempMin);
 
     // Agregarle el div con la informacion al elemento
     resultado.appendChild(resultadoDiv);
@@ -90,3 +111,5 @@ function limpiarHtml(){
         resultado.removeChild(resultado.firstChild);
     }
 }
+
+const kelvinCentigrados = grados => parseInt(grados- 273.15);
