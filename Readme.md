@@ -21,3 +21,13 @@ _The HTML and CSS will be predefined_
 * I will put into practice that I learned with fetch API.
 
 * You must add the country to the you want to know the weather.
+
+
+
+## Seeker letters of songs
+
+* This project will be use Apiary.
+
+* The project will be divided into modules.
+
+* You must introduce the artist and song that you wish.
