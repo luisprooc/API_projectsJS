@@ -1,6 +1,7 @@
 import {registrosPaginas,resultado,formulario} from "./selectores.js";
 
-let totalPaginas;
+let totalPaginas,iterador;
+
 document.addEventListener("DOMContentLoaded", () =>{
     formulario.addEventListener("submit",validarFormulario);
 });
@@ -45,7 +46,6 @@ function buscarImagenes(busqueda){
         .then(resultado => resultado.json())
         .then(resultado => {
             totalPaginas = calcularPaginas(resultado.totalHits);
-            console.log(totalPaginas);
             mostrarImagenes(resultado.hits);
         });
 }
@@ -74,8 +74,20 @@ function mostrarImagenes(imagenes){
             </div>
         `;
     });
+
+    imprimirPaginador();
 }
 
 function calcularPaginas(total){
     return parseInt(Math.ceil(total/registrosPaginas));
+}
+
+function *crearPaginador(total){
+    for(let i = 1; i<= total; i++){
+        yield i;
+    }
+}
+
+function imprimirPaginador(){
+    iterador = crearPaginador(totalPaginas);
 }
