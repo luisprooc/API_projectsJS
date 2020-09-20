@@ -31,3 +31,13 @@ _The HTML and CSS will be predefined_
 * The project will be divided into modules.
 
 * You must introduce the artist and song that you wish.
+
+
+
+## Seeker images
+
+* This project will be use Pixabay.
+
+* The project will be divided into modules.
+
+* You must introduce the type of image that you wish.
