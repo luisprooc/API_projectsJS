@@ -1,5 +1,6 @@
-import {resultado,formulario} from "./selectores.js";
+import {registrosPaginas,resultado,formulario} from "./selectores.js";
 
+let totalPaginas;
 document.addEventListener("DOMContentLoaded", () =>{
     formulario.addEventListener("submit",validarFormulario);
 });
@@ -39,10 +40,14 @@ function mostrarError(mensaje){
 
 function buscarImagenes(busqueda){
     const key = "18386507-736d402e07fb46a9e06bf5f08";
-    const url = `https://pixabay.com/api/?key=${key}&q=${busqueda}&per_page=50`;
+    const url = `https://pixabay.com/api/?key=${key}&q=${busqueda}&per_page=100`;
     fetch(url)
         .then(resultado => resultado.json())
-        .then(resultado => mostrarImagenes(resultado.hits));
+        .then(resultado => {
+            totalPaginas = calcularPaginas(resultado.totalHits);
+            console.log(totalPaginas);
+            mostrarImagenes(resultado.hits);
+        });
 }
 
 function mostrarImagenes(imagenes){
@@ -68,5 +73,9 @@ function mostrarImagenes(imagenes){
                 </div>
             </div>
         `;
-    })
+    });
+}
+
+function calcularPaginas(total){
+    return parseInt(Math.ceil(total/registrosPaginas));
 }
