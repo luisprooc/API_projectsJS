@@ -1,4 +1,4 @@
-import {registrosPaginas,resultado,formulario} from "./selectores.js";
+import {registrosPaginas,resultado,formulario,paginacionDiv} from "./selectores.js";
 
 let totalPaginas,iterador;
 
@@ -41,7 +41,7 @@ function mostrarError(mensaje){
 
 function buscarImagenes(busqueda){
     const key = "18386507-736d402e07fb46a9e06bf5f08";
-    const url = `https://pixabay.com/api/?key=${key}&q=${busqueda}&per_page=100`;
+    const url = `https://pixabay.com/api/?key=${key}&q=${busqueda}&per_page=${registrosPaginas}`;
     fetch(url)
         .then(resultado => resultado.json())
         .then(resultado => {
@@ -90,4 +90,22 @@ function *crearPaginador(total){
 
 function imprimirPaginador(){
     iterador = crearPaginador(totalPaginas);
+    paginacionDiv.innerHTML = ``;
+    while(true){
+        const{value, done} = iterador.next();
+        if(done){
+            return;
+        }
+
+        // Crear boton si aun no se acaba
+
+        const boton = document.createElement("a");
+        boton.href = "#";
+        boton.dataset.pagina = value;
+        boton.textContent = value;
+        boton.classList.add("siguiente","bg-yellow-400","px-4","py-1","mr-2","font-bold","mb-4","rounded");
+
+        paginacionDiv.appendChild(boton);
+
+    }
 }
