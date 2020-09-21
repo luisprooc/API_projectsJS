@@ -41,3 +41,13 @@ _The HTML and CSS will be predefined_
 * The project will be divided into modules.
 
 * You must introduce the type of image that you wish.
+
+
+
+## Cryptocurrency quote
+
+* This project will be use cryptoCompare.
+
+* The project will be divided into modules.
+
+* You must enter the pesos and crypto coins that you wish to quote.
