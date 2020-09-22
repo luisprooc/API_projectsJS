@@ -47,19 +47,36 @@ function validarDatos(e){
         mostrarError("Ambos campos son obligatorios");
         return;
     }
+
+    consultarAPI();
 }
 
 
 function mostrarError(mensaje){
-    const divMensaje = document.createElement("div");
-    divMensaje.classList.add("error");
+    const divMensaje = document.querySelector(".error");
+    if(!divMensaje){
+        const divMensaje = document.createElement("div");
+        divMensaje.classList.add("error");
 
-    divMensaje.innerHTML = `${mensaje}`;
+        divMensaje.innerHTML = `${mensaje}`;
 
-    formulario.appendChild(divMensaje);
+        formulario.appendChild(divMensaje);
 
-    setTimeout(() =>{
-        divMensaje.remove();
+        setTimeout(() =>{
+            divMensaje.remove();
 
-    },3000);
+        },3000);
+    }
+}
+
+function  consultarAPI(){
+    const {criptomoneda,moneda} = objBusqueda;
+    const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
+
+    fetch(url)
+        .then(resultado => resultado.json())
+        .then(resultado => {
+            
+            console.log(resultado.DISPLAY[criptomoneda][moneda])
+        })
 }
