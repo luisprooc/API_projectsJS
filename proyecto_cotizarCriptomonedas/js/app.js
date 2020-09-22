@@ -1,28 +1,36 @@
 import {criptomonedasSelect,formulario,objBusqueda,monedaSelect} from "./selectores.js";
 
+// Promesa para las criptomonedas obtenidas
 const obtenerCriptomonedas = criptomonedas => new Promise(resolve => {
     resolve(criptomonedas);
 });
 
 
 document.addEventListener("DOMContentLoaded",() =>{
+    // Obtenemos las 10 criptomonedas mas populares
     consultarCriptomonedasPopulares();
+
+    // Validamos el formulario
     formulario.addEventListener("submit",validarDatos);
     criptomonedasSelect.addEventListener("change",leerValor);
     monedaSelect.addEventListener("change",leerValor);
 });
 
 function consultarCriptomonedasPopulares(){
+    // Consultar y traer las criptomonedas mas populares
     const url = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD";
 
     fetch(url)
         .then(resultado => resultado.json())
+        // Definir una promesa
         .then(resultado =>  obtenerCriptomonedas(resultado.Data))
         .then(criptomonedas => selectCriptomonedas(criptomonedas))
 }
 
 
 function selectCriptomonedas(criptomonedas){
+
+    // LLenar el campo del select con los datos de la API
     criptomonedas.forEach(cripto => {
         const {FullName,Name} = cripto.CoinInfo;
 
@@ -37,12 +45,14 @@ function selectCriptomonedas(criptomonedas){
 
 
 function leerValor(e){
+    // Llenamos el objeto de busqueda con el valor de los select
     objBusqueda[e.target.name] = e.target.value;
 }
 
 function validarDatos(e){
     e.preventDefault();
 
+    // Mostramos un error si los campos estan vacios
     if(!objBusqueda.criptomoneda || !objBusqueda.moneda){
         mostrarError("Ambos campos son obligatorios");
         return;
@@ -70,13 +80,15 @@ function mostrarError(mensaje){
 }
 
 function  consultarAPI(){
+    // Consultamos la API con los valores del objeto
     const {criptomoneda,moneda} = objBusqueda;
     const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomoneda}&tsyms=${moneda}`;
 
+    cargarSpinner();
     fetch(url)
         .then(resultado => resultado.json())
         .then(resultado => {
-            
+            // Accedemos dinamicamente al objeto que nos manda la API
             mostrarCotizacion(resultado.DISPLAY[criptomoneda][moneda])
         });
 }
@@ -84,8 +96,10 @@ function  consultarAPI(){
 function mostrarCotizacion(cotizacion){
     limpiarHTML();
 
+    // destructuring al objeto de la API
     const {PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
 
+    // Creamos parrafos para cada valor
     const precio = document.createElement("p");
     precio.classList.add("precio");
     precio.innerHTML = `El precio es: <span> ${PRICE} </span>`;
@@ -102,6 +116,7 @@ function mostrarCotizacion(cotizacion){
     const actualizacion = document.createElement("p");
     actualizacion.innerHTML = `Ultima actualizacion: <span> ${LASTUPDATE} </span>`;
 
+    // Mandamos los valores al div resultado
     resultado.appendChild(precio);
     resultado.appendChild(precioAlto);
     resultado.appendChild(precioBajo);
@@ -114,3 +129,18 @@ function limpiarHTML(){
         resultado.removeChild(resultado.firstChild);
     }
 }
+
+function cargarSpinner(){
+    // Creamos un spinner 
+    const spinner = document.createElement("div");
+    spinner.classList.add("spinner");
+
+    spinner.innerHTML = `
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    `;
+
+    resultado.appendChild(spinner);
+
+}
+
