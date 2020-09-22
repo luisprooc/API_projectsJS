@@ -1,14 +1,18 @@
-import {criptomonedasSelect} from "./selectores.js";
+import {criptomonedasSelect,formulario,objBusqueda,monedaSelect} from "./selectores.js";
 
 const obtenerCriptomonedas = criptomonedas => new Promise(resolve => {
     resolve(criptomonedas);
 });
 
+
 document.addEventListener("DOMContentLoaded",() =>{
-    consultarCriptomonedas();
+    consultarCriptomonedasPopulares();
+    formulario.addEventListener("submit",validarDatos);
+    criptomonedasSelect.addEventListener("change",leerValor);
+    monedaSelect.addEventListener("change",leerValor);
 });
 
-function consultarCriptomonedas(){
+function consultarCriptomonedasPopulares(){
     const url = "https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD";
 
     fetch(url)
@@ -29,4 +33,33 @@ function selectCriptomonedas(criptomonedas){
 
         criptomonedasSelect.appendChild(option);
     });
+}
+
+
+function leerValor(e){
+    objBusqueda[e.target.name] = e.target.value;
+}
+
+function validarDatos(e){
+    e.preventDefault();
+
+    if(!objBusqueda.criptomoneda || !objBusqueda.moneda){
+        mostrarError("Ambos campos son obligatorios");
+        return;
+    }
+}
+
+
+function mostrarError(mensaje){
+    const divMensaje = document.createElement("div");
+    divMensaje.classList.add("error");
+
+    divMensaje.innerHTML = `${mensaje}`;
+
+    formulario.appendChild(divMensaje);
+
+    setTimeout(() =>{
+        divMensaje.remove();
+
+    },3000);
 }
