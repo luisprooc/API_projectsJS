@@ -77,6 +77,40 @@ function  consultarAPI(){
         .then(resultado => resultado.json())
         .then(resultado => {
             
-            console.log(resultado.DISPLAY[criptomoneda][moneda])
-        })
+            mostrarCotizacion(resultado.DISPLAY[criptomoneda][moneda])
+        });
+}
+
+function mostrarCotizacion(cotizacion){
+    limpiarHTML();
+
+    const {PRICE, HIGHDAY, LOWDAY, CHANGEPCT24HOUR,LASTUPDATE} = cotizacion;
+
+    const precio = document.createElement("p");
+    precio.classList.add("precio");
+    precio.innerHTML = `El precio es: <span> ${PRICE} </span>`;
+
+    const precioAlto = document.createElement("p");
+    precioAlto.innerHTML = `El precio mas alto del dia: <span> ${HIGHDAY} </span>`;
+
+    const precioBajo = document.createElement("p");
+    precioBajo.innerHTML = `El precio mas bajo del dia: <span> ${LOWDAY} </span>`;
+
+    const actualizacionDia = document.createElement("p");
+    actualizacionDia.innerHTML = `Ultima actualizacion del dia: <span> ${CHANGEPCT24HOUR}% </span>`;
+
+    const actualizacion = document.createElement("p");
+    actualizacion.innerHTML = `Ultima actualizacion: <span> ${LASTUPDATE} </span>`;
+
+    resultado.appendChild(precio);
+    resultado.appendChild(precioAlto);
+    resultado.appendChild(precioBajo);
+    resultado.appendChild(actualizacionDia);
+    resultado.appendChild(actualizacion);
+}
+
+function limpiarHTML(){
+    while(resultado.firstChild){
+        resultado.removeChild(resultado.firstChild);
+    }
 }
