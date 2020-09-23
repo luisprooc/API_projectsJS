@@ -51,3 +51,13 @@ _The HTML and CSS will be predefined_
 * The project will be divided into modules.
 
 * You must enter the pesos and crypto coins that you wish to quote.
+
+
+
+## Seeker jobs in GitHub
+
+* This project will be use GitHub Jobs.
+
+* The project will be divided into modules.
+
+* You must enter the technology that you wish to use in your next job.
