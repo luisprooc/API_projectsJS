@@ -9,6 +9,7 @@ function validarBusqueda(e){
 
     const busqueda = document.querySelector("#busqueda").value;
 
+    // Verificamos si se le agrego al formulario
     if(!busqueda) {
         mostrarMensaje("La informacion que proporcionaste no es valida");
         return;
@@ -18,7 +19,11 @@ function validarBusqueda(e){
 }
 
 function mostrarMensaje(mensaje){
+
+    // Verificamos si hay alertas
     const alerta = document.querySelector(".alerta");
+
+    // Si no hay alertas la creamos
     if(!alerta){
         resultado.innerHTML = ``;
         const alerta = document.createElement("div");
@@ -35,15 +40,25 @@ function mostrarMensaje(mensaje){
 
 function consultarAPI(busqueda){
     const gitHubUrl = `https://jobs.github.com/positions.json?search=${busqueda}`;
+
+    // Usamos un encriptador ya que esta API esta bloqueada
     const url = `https://api.allorigins.win/get?url=${encodeURIComponent(gitHubUrl)}`;
+
+    // Cargamos el spinner
     mostrarSpinner();
+
+    // Obtenemos los datos de la API mediante Axios
     axios.get(url)
         .then(respuesta => mostrarVacantes(JSON.parse(respuesta.data.contents)))
 }
 
 function mostrarVacantes(vacantes){
     formulario.reset();
+
+    // Removemos el spinner que agregamos anteriormente
     formulario.removeChild(formulario.lastChild);
+
+    // Limpiamos el HTML
     while(resultado.firstChild){
         resultado.removeChild(resultado.firstChild);
     }
@@ -52,6 +67,7 @@ function mostrarVacantes(vacantes){
         resultado.classList.add("grid");
 
         vacantes.forEach(vacante =>{
+            // iterar el arreglo e imprimirlo en el HTML
             const {company,title,type,url} = vacante;
 
             resultado.innerHTML += `
@@ -67,6 +83,8 @@ function mostrarVacantes(vacantes){
     }
 
     else{
+
+        // Si no hay vacantes crear un parrafo informando dicha situacion
         const noResultado = document.createElement("p");
         noResultado.classList.add("text-center","mt-10","text-gray-600","w-full","font-bold");
         noResultado.textContent = "No hay vacantes que mostrar";
@@ -76,7 +94,8 @@ function mostrarVacantes(vacantes){
 }
 
 function mostrarSpinner(){
-    console.log("mostrando")
+
+    // Creamos un spinner
     const spinner = document.createElement("div");
     spinner.classList.add("spinner");
 
