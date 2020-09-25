@@ -63,3 +63,15 @@ _The HTML and CSS will be predefined_
 * You must enter the technology that you wish to use in your next job.
 
 * This project will be use axios.
+
+
+
+## CRUD CRM WITH REST
+
+* This project will be use json server.
+
+* The project will be divided into modules.
+
+* You can add, delete and update clients.
+
+* This project will be use a simulate API.
