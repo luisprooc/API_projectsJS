@@ -46,7 +46,7 @@ function mostrarError(mensaje){
 }
 
 // Llamada a la API
-function buscarImagenes(){
+async function buscarImagenes(){
 
     // LLave que proporciona la API
     const key = "18386507-736d402e07fb46a9e06bf5f08";
@@ -54,16 +54,19 @@ function buscarImagenes(){
     // Forma de pedir datos a la API
     const url = `https://pixabay.com/api/?key=${key}&q=${busqueda.value}&per_page=${registrosPaginas}&page=${paginaActual}`;
 
-    // Extremos los datos con fetch
-    fetch(url)
-        .then(resultado => resultado.json())
-        .then(resultado => {
-            // Calculamos el numero de paginas que tendremos
-            totalPaginas = calcularPaginas(resultado.totalHits);
+    try {
+        const respuesta = await fetch(url);
+        const resultado = await respuesta.json();
 
-            // Mostramos las imagenes en el HTML
-            mostrarImagenes(resultado.hits);
-        });
+        // Calculamos el numero de paginas que tendremos
+        totalPaginas = calcularPaginas(resultado.totalHits);
+
+         // Mostramos las imagenes en el HTML
+        mostrarImagenes(resultado.hits);
+    } 
+    catch (error) {
+        console.log(error);
+    }
 }
 
 function mostrarImagenes(imagenes){
