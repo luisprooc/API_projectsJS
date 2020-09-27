@@ -6,6 +6,14 @@
       "telefono": "11",
       "empresa": "Intellesys",
       "id": 33
+    },
+
+    {
+      "nombre": "Nattaly",
+      "email": "correo1@correo.com",
+      "telefono": "12",
+      "empresa": "Maquillaje",
+      "id": 34
     }
   ]
 }
