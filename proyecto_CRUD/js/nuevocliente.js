@@ -1,3 +1,4 @@
+import {mostrarAlerta} from "./funciones.js";
 (function(){
     const formulario = document.querySelector("#formulario");
     formulario.addEventListener("submit",validarCliente);
@@ -19,7 +20,7 @@
         };
 
         if(!validar(cliente)){
-            console.log("No")
+            mostrarAlerta("Todos los campos son obligatorios");
             return;
         }
 
