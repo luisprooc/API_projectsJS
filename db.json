@@ -1,19 +1,18 @@
 {
   "clientes": [
     {
-      "nombre": "Luis Factor!",
-      "email": "correo2@correo.com",
-      "telefono": "11",
-      "empresa": "Intellesys",
-      "id": 33
+      "nombre": "Luis",
+      "email": "luismiygene@hotmail.com",
+      "telefono": "3",
+      "empresa": "Facialix",
+      "id": 1
     },
-
     {
       "nombre": "Nattaly",
-      "email": "correo1@correo.com",
-      "telefono": "12",
+      "email": "xd@hotmail.com",
+      "telefono": "2",
       "empresa": "Maquillaje",
-      "id": 34
+      "id": 2
     }
   ]
 }
