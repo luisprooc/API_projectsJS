@@ -1,25 +1,11 @@
 {
   "clientes": [
     {
-      "nombre": "Luis",
-      "email": "luismiygene@hotmail.com",
-      "telefono": "3",
-      "empresa": "Facialix",
-      "id": 1
-    },
-    {
       "nombre": "Nattaly",
       "email": "xd@hotmail.com",
       "telefono": "2",
       "empresa": "Maquillaje",
       "id": 2
-    },
-    {
-      "nombre": "Fargan",
-      "email": "xd@hotmail.com",
-      "telefono": "6",
-      "empresa": "Videojuegos",
-      "id": 3
     }
   ]
 }
