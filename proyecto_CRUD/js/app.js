@@ -3,12 +3,17 @@ import {obtenerClientes,eliminarCliente} from "./API.js";
     const listado = document.querySelector("#listado-clientes");
     listado.addEventListener("click",confirmarEliminar);
 
+    // Cuando cargye el documento mostramos los clientes
     document.addEventListener("DOMContentLoaded",mostrarClientes);
 
     async function mostrarClientes(){
+
+        // Obtenemos todos los clientes de la API
         const clientes = await obtenerClientes();
         
         clientes.forEach(cliente => {
+
+            // Creamos tablas para mostrar los clientes
             const row = document.createElement("tr");
             const {nombre, email, telefono, empresa, id} = cliente;
 
@@ -28,14 +33,22 @@ import {obtenerClientes,eliminarCliente} from "./API.js";
                     <a href="#" data-cliente="${id}" class="text-red-600 hover:text-red-900 eliminar">Eliminar</a>
                 </td>
         `;
+
+        // Lo agregamos al listado
         listado.appendChild(row);
     });
     }
 
     function confirmarEliminar(e){
+
+        // Delegation para eliminar el cliente
         if(e.target.classList.contains("eliminar")){
+
+            // Obtenemos el id del cliente
             const clienteID = e.target.dataset.cliente;
             if(confirm("¿Deseas eliminar este cliente?")){
+
+                // Eliminamos el cliente de la API
                 eliminarCliente(clienteID);
             }
         }
